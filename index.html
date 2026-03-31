@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SETU – Smart E-Learning Platform</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- SPLASH SCREEN -->
+<div id="splashScreen">
+
+  <div class="splash-content">
+
+    <div class="splash-logo">🎓</div>
+
+    <h1 class="splash-title">SETU</h1>
+    <p class="splash-tag">Low Bandwidth Learning</p>
+
+    <div class="splash-loader"></div>
+
+  </div>
+
+</div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+  <div class="nav-left">
+    <div class="logo-icon">🎓</div>
+    <div>
+      <div class="brand">SETU</div>
+      <small>Low Bandwidth Learning</small>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU BUTTON -->
+  <div class="menu-toggle" id="menuToggle">
+    ☰
+  </div>
+
+  <nav class="nav-right" id="navMenu">
+
+    <a class="nav-link active" data-target="home">Home</a>
+    <a class="nav-link" data-target="courses">Courses</a>
+    <a class="nav-link" data-target="dashboard">My Learning</a>
+    <a class="nav-link" data-target="quiz">Quiz</a>
+    
+    <!-- <button class="student-btn" onclick="checkAuthAndNavigate('Student')">
+🎓 Student
+</button>
+
+<button class="teacher-btn" onclick="checkAuthAndNavigate('Teacher')">
+👨‍🏫 Teacher
+</button>        -->
+
+    <!-- AUTH BUTTONS -->
+    <div class="auth-buttons">
+      <button class="login-btn" onclick="window.location.href='login.html'">
+        Login
+      </button>
+      <button class="register-btn" onclick="window.location.href='register.html'">
+        Register
+      </button>
+    </div>
+
+  </nav>
+
+</header>
+
+<div class="grid-bg"></div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <h1>
+    High Efficiency <br>
+    <span class="green">E-Learning Platform</span>
+  </h1>
+
+  <p class="subtitle">
+    Learn anywhere with fast loading courses, smart notes and AI assisted learning.
+  </p>
+
+  <div class="cta">
+    <button class="primary" data-target="courses">Browse Courses</button>
+    <button class="secondary" data-target="dashboard">My Dashboard</button>
+  </div>
+</section>
+
+<section class="section intro-section">
+
+  <h2>What is SETU?</h2>
+
+  <p class="section-text">
+    SETU is a high-efficiency, low-bandwidth smart learning platform designed to bridge
+    the education gap for rural colleges. It enables students to access quality lectures,
+    quizzes, and learning materials even on slow internet connections.
+  </p>
+
+  <p class="section-text">
+    Our mission is simple — Quality education should not depend on internet speed.
+  </p>
+
+</section>
+
+<section class="section problem-section">
+
+  <h2>The Education Gap Challenge</h2>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <h3>📶 Infrastructure Issues</h3>
+      <p>Many rural areas lack stable 4G / 5G internet connectivity.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>💰 Economic Constraints</h3>
+      <p>Rural institutions cannot afford expensive learning platforms.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>📱 Device Limitations</h3>
+      <p>Most apps fail on low-end smartphones used by students.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>🎓 Skill Gap</h3>
+      <p>Students lack access to specialist lecturers and modern resources.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section solution-section">
+
+  <h2>Our Smart Solution</h2>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <h3>🎧 Audio First Learning</h3>
+      <p>Clear audio even on slow networks.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>🌐 Progressive Web App</h3>
+      <p>Runs on any device without heavy downloads.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>📦 Resilient Downloads</h3>
+      <p>Resume learning even if internet disconnects.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>⚡ QoS Optimized Streaming</h3>
+      <p>Lag-free lecture delivery on unstable networks.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section tech-section">
+
+  <h2>Modern Open Tech Stack</h2>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <h3>🎨 Frontend</h3>
+      <p>React + HTML5 + CSS3 for fast and responsive UI.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>🗄 Backend</h3>
+      <p>PHP + MySQL for lightweight and reliable performance.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>📲 Platform</h3>
+      <p>Progressive Web App optimized for low-end smartphones.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- COURSES -->
+<section class="section" id="courses">
+  <h2>Popular Courses</h2>
+
+  <div class="course-grid">
+
+    <div class="course-card">
+      <h3>Web Development</h3>
+      <p>HTML, CSS, JavaScript fundamentals</p>
+      <button onclick="enrollCourse('Web Development')">Enroll</button>
+    </div>
+
+    <div class="course-card">
+      <h3>Java Programming</h3>
+      <p>Core Java + OOP concepts</p>
+      <button onclick="enrollCourse('Java Programming')">Enroll</button>
+    </div>
+
+    <div class="course-card">
+      <h3>Database Management</h3>
+      <p>SQL + Database Design</p>
+      <button onclick="enrollCourse('Database Management')">Enroll</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="section" id="dashboard">
+  <h2>My Learning</h2>
+
+  <div id="myCourses"></div>
+
+  <div class="video-box">
+    <h3>Lesson Player</h3>
+    <video controls width="100%">
+      <source src="" type="video/mp4">
+    </video>
+    <p>Video placeholder (Low bandwidth streaming supported)</p>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="section" id="quiz">
+  <h2>Quick Quiz</h2>
+
+  <div class="quiz-box">
+    <p>What does HTML stand for?</p>
+
+    <button onclick="checkAnswer(this,false)">Hyper Trainer Marking Language</button>
+    <button onclick="checkAnswer(this,true)">Hyper Text Markup Language</button>
+    <button onclick="checkAnswer(this,false)">High Text Machine Language</button>
+
+    <div id="quizResult"></div>
+  </div>
+</section>
+
+<script src="script.js?v=2"></script>
+</body>
+</html>

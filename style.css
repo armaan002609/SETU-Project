@@ -1,0 +1,529 @@
+:root{
+--primary:#2563EB;
+--secondary:#CBD5E1;
+--background:#F1F5F9;
+--accent:#F59E0B;
+--text:#0F172A;
+--card:white;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"JetBrains Mono", monospace;
+}
+
+body{
+background:var(--background);
+color:var(--text);
+}
+
+/* NAVBAR */
+.navbar{
+height:64px;
+padding:0 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:fixed;
+width:100%;
+background:white;
+border-bottom:1px solid var(--secondary);
+z-index:10;
+}
+
+.nav-left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo-icon{
+background:var(--primary);
+color:white;
+padding:8px;
+border-radius:8px;
+}
+
+.brand{
+font-weight:600;
+color:var(--text);
+}
+
+/* RIGHT NAV CONTAINER */
+.nav-right{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+/* NAV LINKS */
+.nav-right a{
+text-decoration:none;
+color:var(--text);
+opacity:0.7;
+font-size:14px;
+}
+
+.nav-right a.active{
+color:var(--primary);
+font-weight:600;
+opacity:1;
+}
+
+.nav-link {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+/* AUTH BUTTON GROUP */
+.auth-buttons{
+display:flex;
+gap:10px;
+margin-left:20px;
+padding-left:20px;
+border-left:1px solid var(--secondary);
+}
+
+/* LOGIN BUTTON */
+.login-btn{
+background:transparent;
+border:1px solid var(--primary);
+color:var(--primary);
+padding:6px 14px;
+border-radius:8px;
+font-size:14px;
+cursor:pointer;
+}
+
+.login-btn:hover{
+background:var(--primary);
+color:white;
+}
+
+/* REGISTER BUTTON */
+.register-btn{
+background:var(--primary);
+color:white;
+padding:6px 16px;
+border-radius:8px;
+font-size:14px;
+cursor:pointer;
+}
+
+.register-btn:hover{
+opacity:0.9;
+}
+
+/* GRID BG (LIGHT VERSION) */
+.grid-bg{
+position:fixed;
+inset:0;
+background-image:
+linear-gradient(rgba(15,23,42,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(15,23,42,0.05) 1px, transparent 1px);
+background-size:48px 48px;
+}
+
+/* HERO */
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+gap:20px;
+padding-top:80px;
+}
+
+.green{
+color:var(--primary);
+}
+
+.subtitle{
+max-width:600px;
+color:#475569;
+}
+
+.cta{
+display:flex;
+gap:15px;
+}
+
+button{
+padding:12px 22px;
+border-radius:8px;
+border:none;
+cursor:pointer;
+font-weight:500;
+}
+
+/* BUTTONS */
+.primary{
+background:var(--primary);
+color:white;
+}
+
+.secondary{
+background:var(--secondary);
+color:var(--text);
+}
+
+/* SECTIONS */
+.section{
+padding:120px 20px;
+max-width:1000px;
+margin:auto;
+text-align:center;
+}
+
+.course-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.course-card{
+background:var(--card);
+padding:20px;
+border-radius:12px;
+border:1px solid var(--secondary);
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.course-card button{
+margin-top:15px;
+background:var(--primary);
+color:white;
+}
+
+/* DASHBOARD */
+.video-box{
+margin-top:40px;
+background:var(--card);
+padding:20px;
+border-radius:12px;
+border:1px solid var(--secondary);
+}
+
+/* QUIZ */
+.quiz-box button{
+display:block;
+width:100%;
+margin:10px 0;
+background:white;
+border:1px solid var(--secondary);
+color:var(--text);
+}
+
+.quiz-box button:hover{
+border-color:var(--primary);
+}
+
+#quizResult{
+margin-top:15px;
+font-weight:bold;
+color:var(--primary);
+}
+
+.section-text{
+max-width:800px;
+margin:20px auto;
+color:#475569;
+line-height:1.6;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.feature-card{
+background:var(--card);
+padding:25px;
+border-radius:12px;
+border:1px solid var(--secondary);
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+text-align:left;
+}
+
+.feature-card h3{
+margin-bottom:10px;
+color:var(--primary);
+}
+
+/* NAVBAR BASE */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 24px;
+flex-wrap:wrap;
+}
+
+/* NAV RIGHT DESKTOP */
+.nav-right{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+/* MOBILE MENU BUTTON */
+.menu-toggle{
+display:none;
+font-size:26px;
+cursor:pointer;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px){
+
+.menu-toggle{
+display:block;
+}
+
+/* HIDE MENU DEFAULT */
+.nav-right{
+width:100%;
+flex-direction:column;
+align-items:flex-start;
+gap:16px;
+margin-top:15px;
+display:none;
+}
+
+/* SHOW WHEN ACTIVE */
+.nav-right.active{
+display:flex;
+}
+
+.auth-buttons{
+width:100%;
+justify-content:center;
+align-items:center;
+margin-top:10px;
+}
+
+/* MAKE BOTH BUTTONS SAME SIZE */
+.auth-buttons button{
+flex:1;
+max-width:160px;
+text-align:center;
+}
+
+}
+
+.student-btn{
+background:#E0F2FE;
+color:#2563EB;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+font-weight:500;
+cursor:pointer;
+}
+
+.teacher-btn{
+background:#FEF3C7;
+color:#B45309;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+font-weight:500;
+cursor:pointer;
+}
+
+/* SPLASH SCREEN */
+#splashScreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+background:#F1F5F9;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+transition:opacity 0.6s ease, visibility 0.6s;
+}
+
+.splash-content{
+text-align:center;
+}
+
+/* LOGO */
+.splash-logo{
+font-size:60px;
+margin-bottom:10px;
+animation:bounce 1.5s infinite;
+}
+
+/* TITLE */
+.splash-title{
+font-size:32px;
+font-weight:700;
+color:#2563EB;
+}
+
+.splash-tag{
+color:#64748B;
+font-size:14px;
+margin-top:5px;
+}
+
+/* LOADER */
+.splash-loader{
+margin:20px auto 0;
+width:40px;
+height:40px;
+border:4px solid #CBD5E1;
+border-top:4px solid #2563EB;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+/* ANIMATIONS */
+@keyframes spin{
+0%{ transform:rotate(0deg); }
+100%{ transform:rotate(360deg); }
+}
+
+@keyframes bounce{
+0%,100%{ transform:translateY(0); }
+50%{ transform:translateY(-8px); }
+}
+
+/* HIDE STATE */
+.splash-hide{
+opacity:0;
+visibility:hidden;
+}
+
+/* MOBILE MENU BASE */
+.nav-right {
+  transition: all 0.25s ease;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+
+  .nav-right {
+    display: none;
+    position: absolute;
+
+    /* ✅ Better alignment under navbar */
+    top: 75px;
+    right: 20px;
+
+    /* ✅ Better size */
+    width: 280px;
+    max-width: calc(100vw - 40px);
+
+    /* ✅ Clean white card */
+    background: #ffffff;
+
+    /* ✅ Spacing */
+    padding: 22px;
+
+    border-radius: 16px;
+
+    /* ✅ Premium shadow */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+
+    /* ✅ Column layout */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+
+    z-index: 999;
+  }
+
+  /* SHOW MENU */
+  .nav-right.show-menu {
+    display: flex;
+  }
+
+  /* NAV LINKS */
+  .nav-link {
+    padding: 10px 6px;
+    border-radius: 8px;
+  }
+
+  .nav-link:hover {
+    background: #f4f6fb;
+  }
+
+  /* BUTTON FIX */
+  .student-btn,
+  .teacher-btn,
+  .login-btn,
+  .register-btn {
+    width: 100%;
+  }
+
+  /* AUTH SECTION SPACING */
+  .auth-buttons {
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .auth-buttons {
+    border-top: none;   /* ✅ removes that grey line */
+    padding-top: 0;     /* optional: removes extra spacing */
+    margin-top: 10px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .auth-buttons {
+    border: none !important;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  /* Auth Buttons Container */
+  .auth-buttons {
+    display: flex;
+    flex-direction: column;   /* ✅ Stack vertically */
+    gap: 12px;                /* ✅ Same spacing as Student/Teacher */
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  /* Make Buttons Full Width Like Student/Teacher */
+  .auth-buttons button {
+    width: 100%;
+    height: 44px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 500;
+  }
+
+}
+
+

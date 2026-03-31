@@ -1,0 +1,166 @@
+.login-container{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+font-family:"JetBrains Mono", monospace;
+background:#F1F5F9;
+}
+
+.login-card{
+width:100%;
+max-width:420px;
+background:white;
+padding:40px;
+border-radius:16px;
+border:1px solid #CBD5E1;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.login-header{
+text-align:center;
+margin-bottom:25px;
+}
+
+.login-header h2{
+margin:10px 0 6px;
+}
+
+.login-header p{
+color:#64748B;
+font-size:14px;
+}
+
+.logo-icon{
+background:#2563EB;
+color:white;
+padding:10px;
+border-radius:10px;
+display:inline-block;
+}
+
+/* ROLE SELECT */
+.role-select{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.role-btn{
+flex:1;
+padding:10px;
+border:1px solid #CBD5E1;
+background:white;
+border-radius:8px;
+cursor:pointer;
+font-weight:500;
+}
+
+.role-btn.active{
+background:#2563EB;
+color:white;
+}
+
+/* FORM */
+label{
+display:block;
+margin:14px 0 6px;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #CBD5E1;
+font-size:14px;
+}
+
+.primary{
+background:#2563EB;
+color:white;
+border:none;
+padding:12px;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+}
+
+.full{
+width:100%;
+margin-top:20px;
+}
+
+/* FORGOT */
+.forgot-row{
+text-align:right;
+margin-top:6px;
+}
+
+.forgot-row a{
+font-size:13px;
+color:#2563EB;
+text-decoration:none;
+}
+
+/* DIVIDER */
+.divider-line{
+display:flex;
+align-items:center;
+gap:10px;
+margin:20px 0;
+color:#64748B;
+font-size:13px;
+}
+
+.divider-line::before,
+.divider-line::after{
+content:"";
+flex:1;
+height:1px;
+background:#CBD5E1;
+}
+
+/* SOCIAL LOGIN */
+.social-login{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.social-btn{
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px;
+border-radius:10px;
+border:1px solid #CBD5E1;
+background:white;
+cursor:pointer;
+font-size:14px;
+}
+
+.social-btn img{
+width:20px;
+}
+
+/* FOOTER */
+.login-footer{
+margin-top:20px;
+text-align:center;
+font-size:14px;
+}
+
+.login-footer a{
+color:#2563EB;
+text-decoration:none;
+font-weight:500;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+.login-card{
+padding:30px 20px;
+}
+}

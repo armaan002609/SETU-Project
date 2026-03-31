@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SETU Register</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+  <div class="login-card">
+
+    <!-- HEADER -->
+    <div class="login-header">
+      <div class="logo-icon">🎓</div>
+      <h2>Create Account</h2>
+      <p>Join SETU and start learning</p>
+    </div>
+
+    <!-- ROLE SELECT -->
+    <div class="role-select">
+      <button type="button" class="role-btn active">🎓 Student</button>
+      <button type="button" class="role-btn">👨‍🏫 Teacher</button>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm">
+
+      <label>Full Name</label>
+      <input type="text" id="registerName" placeholder="Enter full name" required>
+
+      <label>Email</label>
+      <input type="email" id="registerEmail" placeholder="Enter email" required>
+
+      <div id="subjectWrapper" style="display: none; margin-bottom: 20px;">
+        <label>Faculty Department / Subject</label>
+        <input type="text" id="registerSubject" placeholder="e.g. Physics, Computer Science">
+      </div>
+
+      <div id="studentWrapper" style="margin-bottom: 20px;">
+        <label>School / College Name</label>
+        <input type="text" id="registerSchool" placeholder="e.g. Delhi Public School">
+        
+        <label style="margin-top: 10px; display:block;">Class / Course</label>
+        <input type="text" id="registerClass" placeholder="e.g. Class 12th Science">
+      </div>
+
+      <label>Password</label>
+      <input type="password" id="registerPassword" placeholder="Enter password" required>
+
+      <label>Confirm Password</label>
+      <input type="password" id="registerConfirm" placeholder="Confirm password" required>
+
+      <button type="submit" class="primary full">Register</button>
+
+    </form>
+
+    <!-- DIVIDER -->
+    <div class="divider-line">
+      <span>OR</span>
+    </div>
+
+    <!-- SOCIAL REGISTER -->
+    <div class="social-login">
+
+      <button type="button" class="social-btn google">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg">
+        Continue with Google
+      </button>
+
+      <button type="button" class="social-btn microsoft">
+        <img src="https://www.svgrepo.com/show/448239/microsoft.svg">
+        Continue with Microsoft
+      </button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="login-footer">
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="register.js?v=2"></script>
+</body>
+</html>

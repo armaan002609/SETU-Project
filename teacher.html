@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Dashboard - SETU</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="teacher.css" />
+</head>
+<body class="dashboard-body">
+
+<div class="dashboard-wrap">
+  
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">🎓</div>
+      <div class="brand-text">
+        <h3>SETU</h3>
+        <p>Learning Platform</p>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+      
+      <a href="teacher.html" class="nav-item active">👨‍🏫 Faculty Dashboard</a>
+      <a href="student.html" class="nav-item">📚 Student Dashboard</a>
+      <div class="nav-accordion" id="liveClassesAccordion">
+        <button class="nav-item nav-accordion-toggle" id="liveClassesToggle">📡 Live Classes <span id="liveCountBadge" style="background:#DB2777;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;">0</span></button>
+        <div class="nav-accordion-body" id="liveClassesPanel" style="display:none; padding:4px 0 4px 16px;">
+          <div id="liveClassesList"><p style="color:#94A3B8;font-size:12px;padding:6px 0;">Loading...</p></div>
+        </div>
+      </div>
+      <div class="nav-accordion" id="recordedAccordion">
+        <button class="nav-item nav-accordion-toggle" id="recordedToggle">🎥 Recorded Sessions <span id="recordedCountBadge" style="background:#94A3B8;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;">0</span></button>
+        <div class="nav-accordion-body" id="recordedPanel" style="display:none; padding:4px 0 4px 16px;">
+          <div id="recordedList"><p style="color:#94A3B8;font-size:12px;padding:6px 0;">Loading...</p></div>
+        </div>
+      </div>
+      <div class="nav-accordion" id="quizzesAccordion">
+        <button class="nav-item nav-accordion-toggle" id="quizzesToggle">📝 Quizzes <span id="quizzesCountBadge" style="background:#94A3B8;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;">0</span></button>
+        <div class="nav-accordion-body" id="quizzesPanel" style="display:none; padding:4px 0 4px 16px;">
+          <div id="quizzesList"><p style="color:#94A3B8;font-size:12px;padding:6px 0;">Loading...</p></div>
+        </div>
+      </div>
+    </nav>
+
+    <a href="index.html" class="nav-item logout">🚪 Logout</a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <header class="main-header">
+      <div>
+        <h1>Faculty Dashboard</h1>
+        <p class="welcome-text" style="color:#64748B;">Welcome back, <span id="welcomeName">Prof. Rajesh Kumar</span></p>
+      </div>
+      <div class="profile-badge" id="editProfileBtn" style="cursor: pointer;" title="Click to Edit Profile">
+        <div class="avatar" style="background:#0F172A;">RK</div>
+        <div class="info">
+          <strong><span id="profileName">Prof. Rajesh Kumar</span></strong>
+          <span style="font-size:12px; color:#64748B;" id="profileDepartment">Physics Department</span>
+          <span style="font-size:11px; color:#94A3B8; display:block; margin-top:2px;" id="profileEmpId">EMP-000</span>
+        </div>
+        <div style="margin-left: 10px; color: #64748B; font-size: 16px;">✎</div>
+      </div>
+    </header>
+
+    <div class="stats-row">
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #E0E7FF; color: #4F46E5;">👥</div>
+        <div class="stat-details">
+          <p class="stat-title">Total Students</p>
+          <h2 class="stat-number" id="statTotalStudents">—</h2>
+          <span class="subtext highlight" style="color: #059669; font-weight:500;" id="statStudentsSubtext">Loading...</span>
+        </div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #FCE7F3; color: #DB2777;">📡</div>
+        <div class="stat-details">
+          <p class="stat-title">Active Sessions</p>
+          <h2 class="stat-number" id="statActiveSessions">—</h2>
+          <span class="subtext" style="color: #64748B;" id="statSessionsSubtext">Loading...</span>
+        </div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #DCFCE7; color: #059669;">📁</div>
+        <div class="stat-details">
+          <p class="stat-title">Uploaded Content</p>
+          <h2 class="stat-number" id="statUploadedContent">—</h2>
+          <span class="subtext" style="color: #64748B;" id="statContentSubtext">Loading...</span>
+        </div>
+      </div>
+      <!-- <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #FEF3C7; color: #D97706;">⌛</div>
+        <div class="stat-details">
+          <p class="stat-title">Pending Reviews</p>
+          <h2 class="stat-number">15</h2>
+          <span class="subtext" style="color: #64748B;">Assignments & Quizzes</span>
+        </div>
+      </div> -->
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <section class="quick-actions-section" style="margin-bottom: 40px;">
+      <div class="section-header" style="margin-bottom:20px;">
+        <h2>Quick Actions</h2>
+      </div>
+
+      <div class="quick-actions-grid">
+        <button class="action-card" id="btnUploadSlides">
+          <div class="action-icon" style="background: #EEF2FF; color: #4F46E5;">📄</div>
+          <div class="action-text">
+            <h4>Upload Slides/Notes</h4>
+            <p>Upload presentation slides, lecture notes, and study materials</p>
+          </div>
+        </button>
+        <button class="action-card" id="btnLiveSession">
+          <div class="action-icon" style="background: #FCE7F3; color: #DB2777;">📡</div>
+          <div class="action-text">
+            <h4>Start Live Session</h4>
+            <p>Begin live teaching session with students</p>
+          </div>
+        </button>
+        <button class="action-card" id="btnUploadLecture">
+          <div class="action-icon" style="background: #FEF3C7; color: #D97706;">🎥</div>
+          <div class="action-text">
+            <h4>Upload Recorded Lectures</h4>
+            <p>Upload pre-recorded video lectures and tutorials</p>
+          </div>
+        </button>
+        <button class="action-card" id="btnPostQuiz">
+          <div class="action-icon" style="background: #DCFCE7; color: #059669;">📝</div>
+          <div class="action-text">
+            <h4>Post Quizzes</h4>
+            <p>Create and schedule quizzes for students</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- CONTENT MANAGEMENT -->
+    <section class="content-management">
+      <div class="section-header" style="margin-bottom:20px;">
+        <h2>Content Management</h2>
+        <p style="color:#64748B;">Manage your uploaded materials and sessions</p>
+      </div>
+
+      <div class="content-list" id="dynamicContentList">
+         <!-- Content nodes implicitly dynamically rendered by teacher.js accurately querying XAMPP environments cleanly mapping tables synchronously! -->
+      </div>
+    </section>
+
+    <!-- STUDENT RECORDS -->
+    <section class="student-records" style="margin-top: 40px;">
+      <div class="section-header" style="margin-bottom:20px;">
+        <h2>Student Records</h2>
+        <p style="color:#64748B;">Overview of all enrolled students and their current progress</p>
+      </div>
+      
+      <div class="records-table-container">
+        <table class="records-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Class / Course</th>
+              <th>Roll No</th>
+              <th>Overall Progress</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="studentRecordsTableBody">
+            <!-- Dynamically populated from database via fetch_students.php -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="right-sidebar">
+    
+    <div class="widget">
+      <h3 style="margin-bottom: 20px; font-size:18px;">Live Session Status</h3>
+      <div class="live-status-card">
+        <div class="live-indicator">
+          <span class="dot blinking"></span>
+          <strong>Live Now</strong>
+        </div>
+        <h4 style="margin-top: 10px; color:#0F172A;" id="liveSessionTitle">Physics - Quantum Mechanics</h4>
+        <button class="primary-btn-sm" style="margin-top: 15px; width: 100%;">Monitor Session</button>
+      </div>
+    </div>
+
+    <div class="widget" style="margin-top: 30px;">
+      <div style="display: flex; justify-content: space-between; align-items:center; margin-bottom: 20px;">
+        <h3 style="font-size:18px;">Student Analytics</h3>
+        <span style="color:#2563EB; font-size:13px; cursor:pointer;">View all</span>
+      </div>
+      <div class="analytics-chart">
+        <div class="bar" style="height:40%"></div>
+        <div class="bar" style="height:60%"></div>
+        <div class="bar" style="height:50%"></div>
+        <div class="bar" style="height:80%"></div>
+        <div class="bar" style="height:100%; background:#4F46E5;"></div>
+        <div class="bar" style="height:70%"></div>
+        <div class="bar" style="height:90%"></div>
+      </div>
+      <div style="display:flex; justify-content: space-between; font-size:11px; color:#94A3B8; margin-top:8px;">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+    </div>
+
+    <div class="widget" style="margin-top: 30px;">
+      <h3 style="margin-bottom: 20px; font-size:18px;">Recent Activity</h3>
+      <div class="activity-timeline">
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div class="activity-desc">
+            <p>Uploaded new lecture video</p>
+            <span>2 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background: #059669; border-color: #D1FAE5;"></div>
+          <div class="activity-desc">
+            <p id="dynamicQuizActivity">Created Physics Quiz #5</p>
+            <span>5 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background: #DB2777; border-color: #FCE7F3;"></div>
+          <div class="activity-desc">
+            <p>Conducted live session</p>
+            <span>1 day ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget upload-widget" style="margin-top: 30px;">
+      <h3 style="margin-bottom: 15px; font-size:18px;">Upload Files</h3>
+      <input type="file" id="hiddenFileInput" style="display:none;" multiple>
+      <div class="upload-dropzone" id="uploadDropzone">
+        <div class="upload-icon" style="font-size:32px; margin-bottom:10px;">☁️</div>
+        <p style="color:#0F172A; margin-bottom:5px;" id="uploadStatusText"><strong>Drag and drop files here</strong></p>
+        <p style="color:#2563EB; font-size:13px; margin-bottom:10px; cursor:pointer;" id="uploadBrowseBtn">or click to browse</p>
+        <p style="font-size:11px; color:#94A3B8; line-height:1.5;">Supported formats: PDF, PPT, DOC, MP4, AVI, MOV<br>Maximum file size: 500MB</p>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Profile</h3>
+      <button class="close-btn" id="closeModalBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="editNameInput" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <input type="text" id="editDepartmentInput" class="form-input">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancelModalBtn">Cancel</button>
+      <button class="primary-btn" id="saveProfileBtn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Live Session Modal -->
+<div class="modal-overlay" id="liveSessionModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Start Live Session</h3>
+      <button class="close-btn" id="closeLiveModalBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Session Title</label>
+        <input type="text" id="liveTitleInput" class="form-input" placeholder="e.g. Physics - Chapter 5 Revision">
+      </div>
+      <div class="form-group">
+        <label>Meeting Link (Zoom/Meet)</label>
+        <input type="text" id="liveLinkInput" class="form-input" placeholder="https://meet.google.com/...">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancelLiveModalBtn">Cancel</button>
+      <button class="primary-btn" id="startLiveBtn">Go Live Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Post Quiz Modal (2-step: details → add questions) -->
+<div class="modal-overlay" id="quizModal">
+  <div class="modal-content" style="max-width:580px; max-height:90vh; display:flex; flex-direction:column;">
+    <div class="modal-header">
+      <div>
+        <h3 id="quizModalTitle">Post a New Quiz</h3>
+        <p id="quizModalStep" style="font-size:12px;color:#64748B;margin-top:2px;">Step 1 of 2 — Quiz Details</p>
+      </div>
+      <button class="close-btn" id="closeQuizModalBtn">✕</button>
+    </div>
+
+    <!-- Step 1: Quiz Details -->
+    <div class="modal-body" id="quizStep1">
+      <div class="form-group">
+        <label>Quiz Title</label>
+        <input type="text" id="quizTitleInput" class="form-input" placeholder="e.g. Quantum Mechanics Mid-term">
+      </div>
+      <div class="form-group">
+        <label>Duration (Minutes)</label>
+        <input type="number" id="quizDurationInput" class="form-input" placeholder="30">
+      </div>
+    </div>
+
+    <!-- Step 2: Question Builder -->
+    <div id="quizStep2" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+      <div style="padding:16px 24px; background:#F8FAFC; border-bottom:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center;">
+        <p style="font-size:13px;color:#475569;margin:0;">Add your MCQ questions below. Minimum 1 required.</p>
+        <button id="addQuestionBtn" style="background:#EEF2FF;color:#4F46E5;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;">+ Add Question</button>
+      </div>
+      <div id="questionsContainer" style="overflow-y:auto; flex:1; padding:16px 24px; display:flex; flex-direction:column; gap:16px;">
+        <!-- Questions injected by JS -->
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancelQuizModalBtn">Cancel</button>
+      <button class="primary-btn" id="quizNextBtn">Next: Add Questions →</button>
+      <button class="primary-btn" id="postQuizSubmitBtn" style="display:none;">🚀 Deploy Quiz</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Quiz Modal -->
+<div class="modal-overlay" id="editQuizModal">
+  <div class="modal-content" style="max-width:620px; max-height:90vh; display:flex; flex-direction:column;">
+    <div class="modal-header">
+      <div>
+        <h3>Edit Quiz</h3>
+        <p id="editQuizSubtitle" style="font-size:12px;color:#64748B;margin-top:2px;">Editing quiz questions</p>
+      </div>
+      <button class="close-btn" id="closeEditQuizBtn">✕</button>
+    </div>
+    <div class="modal-body" style="flex-shrink:0;">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:flex-end;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Quiz Title</label>
+          <input type="text" id="editQuizTitle" class="form-input">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Duration (mins)</label>
+          <input type="number" id="editQuizDuration" class="form-input" style="width:90px;">
+        </div>
+      </div>
+    </div>
+    <div style="padding:10px 24px; background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+      <p style="font-size:13px;color:#475569;margin:0;">Questions</p>
+      <button id="addEditQuestionBtn" style="background:#EEF2FF;color:#4F46E5;border:none;border-radius:8px;padding:5px 12px;font-size:13px;font-weight:600;cursor:pointer;">+ Add Question</button>
+    </div>
+    <div id="editQuestionsContainer" style="overflow-y:auto;flex:1;padding:16px 24px;display:flex;flex-direction:column;gap:14px;">
+      <!-- Populated by JS -->
+    </div>
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancelEditQuizBtn">Cancel</button>
+      <button class="primary-btn" id="saveEditQuizBtn">💾 Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script src="teacher.js?v=3"></script>
+
+</body>
+</html>

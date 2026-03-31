@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - SETU</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="student.css" />
+</head>
+<body class="dashboard-body">
+
+<div class="dashboard-wrap">
+  
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">🎓</div>
+      <div class="brand-text">
+        <h3>SETU</h3>
+        <p>Learning Platform</p>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+      <a href="#" class="nav-item active">📚 Student Dashboard</a>
+      <!-- Live Classes accordion -->
+      <div class="nav-accordion" id="sLiveAccordion">
+        <button class="nav-item nav-accordion-toggle" id="sLiveToggle">📡 Live Classes <span id="sLiveBadge" style="background:#94A3B8;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;">0</span></button>
+        <div class="nav-accordion-body" id="sLivePanel" style="display:none;padding:4px 0 4px 16px;">
+          <div id="sLiveList"><p style="color:#94A3B8;font-size:12px;padding:6px 0;">Loading...</p></div>
+        </div>
+      </div>
+      <!-- Recorded Sessions accordion -->
+      <div class="nav-accordion" id="sRecordedAccordion">
+        <button class="nav-item nav-accordion-toggle" id="sRecordedToggle">🎥 Recorded Sessions <span id="sRecordedBadge" style="background:#94A3B8;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;">0</span></button>
+        <div class="nav-accordion-body" id="sRecordedPanel" style="display:none;padding:4px 0 4px 16px;">
+          <div id="sRecordedList"><p style="color:#94A3B8;font-size:12px;padding:6px 0;">Loading...</p></div>
+        </div>
+      </div>
+      <!-- Quizzes accordion -->
+      <div class="nav-accordion" id="sQuizzesAccordion">
+        <button class="nav-item nav-accordion-toggle" id="sQuizzesToggle">📝 Quizzes <span id="sQuizzesBadge" style="background:#94A3B8;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px;">0</span></button>
+        <div class="nav-accordion-body" id="sQuizzesPanel" style="display:none;padding:4px 0 4px 16px;">
+          <div id="sQuizzesList"><p style="color:#94A3B8;font-size:12px;padding:6px 0;">Loading...</p></div>
+        </div>
+      </div>
+    </nav>
+
+    <a href="index.html" class="nav-item logout">🚪 Logout</a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <header class="main-header">
+      <div>
+        <h1>Student Dashboard</h1>
+        <p class="welcome-text" style="color:#64748B;">Welcome back, <span id="welcomeName">Arjun Sharma</span></p>
+      </div>
+      <div class="profile-badge" id="editProfileBtn" style="cursor: pointer; position: relative;" title="Click to Edit Profile">
+        <div class="avatar">AS</div>
+        <div class="info">
+          <strong><span id="profileName">Arjun Sharma</span></strong>
+          <span style="font-size:12px; color:#64748B;" id="profileClass">Class 12th Science</span>
+          <span style="font-size:11px; color:#94A3B8;" id="profileSchool">Delhi Public School</span>
+          <span style="font-size:11px; color:#94A3B8;" id="profileRoll">Roll No: 42</span>
+        </div>
+        <div style="margin-left: 10px; color: #64748B; font-size: 16px;">✎</div>
+      </div>
+    </header>
+
+    <div class="stats-row">
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #E0E7FF; color: #4F46E5;">📚</div>
+        <div class="stat-details">
+          <p class="stat-title">Total Lectures</p>
+          <h2 class="stat-number">156</h2>
+          <span class="subtext highlight" style="color: #059669; font-weight:500;">75% completed</span>
+        </div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #FEF3C7; color: #D97706;">⏳</div>
+        <div class="stat-details">
+          <p class="stat-title">Pending Assignments</p>
+          <h2 class="stat-number">8</h2>
+          <span class="subtext" style="color: #64748B;">Due this week</span>
+        </div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #FCE7F3; color: #DB2777;">📡</div>
+        <div class="stat-details">
+          <p class="stat-title">Upcoming Sessions</p>
+          <h2 class="stat-number">12</h2>
+          <span class="subtext" style="color: #64748B;">Next: Physics at 2:00 PM</span>
+        </div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="stat-icon" style="background: #D1FAE5; color: #059669;">🏆</div>
+        <div class="stat-details">
+          <p class="stat-title">Quiz Score</p>
+          <h2 class="stat-number">92%</h2>
+          <span class="subtext" style="color: #64748B;">Average this month</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="recent-lectures">
+      <div class="section-header" style="margin-bottom:20px;">
+        <h2>Recent Lectures</h2>
+        <p style="color:#64748B;">Continue your learning journey</p>
+      </div>
+
+      <div class="filter-bar">
+        <span style="color:#64748B; margin-right: 10px;">Filter by Subject:</span>
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Physics</button>
+        <button class="filter-btn">Chemistry</button>
+        <button class="filter-btn">Mathematics</button>
+        <button class="filter-btn">Programming</button>
+      </div>
+
+      <div class="lectures-list">
+        
+        <div class="lecture-card">
+          <div class="lecture-thumb" style="background: #E0E7FF;">⚛️</div>
+          <div class="lecture-info">
+            <h4>Quantum Mechanics - Wave Particle Duality</h4>
+            <p style="color:#64748B; font-size:14px; margin-top:5px;">Prof. Rajesh Kumar • Physics</p>
+          </div>
+          <div class="lecture-action">
+            <div class="lecture-date" style="color:#64748B; font-size:12px; margin-bottom:8px;">Uploaded on 28/09/2025</div>
+            <button class="play-btn">▶ Play</button>
+          </div>
+        </div>
+
+        <div class="lecture-card">
+          <div class="lecture-thumb" style="background: #DCFCE7;">🧪</div>
+          <div class="lecture-info">
+            <h4>Organic Chemistry - Alkenes and Alkynes</h4>
+            <p style="color:#64748B; font-size:14px; margin-top:5px;">Dr. Priya Sharma • Chemistry</p>
+          </div>
+          <div class="lecture-action">
+            <div class="lecture-date" style="color:#64748B; font-size:12px; margin-bottom:8px;">Uploaded on 30/09/2025</div>
+            <button class="play-btn">▶ Play</button>
+          </div>
+        </div>
+
+        <div class="lecture-card">
+          <div class="lecture-thumb" style="background: #FEF3C7;">📐</div>
+          <div class="lecture-info">
+            <h4>Calculus - Integration Techniques</h4>
+            <p style="color:#64748B; font-size:14px; margin-top:5px;">Prof. Amit Patel • Mathematics</p>
+          </div>
+          <div class="lecture-action">
+            <div class="lecture-date" style="color:#64748B; font-size:12px; margin-bottom:8px;">Uploaded on 01/10/2025</div>
+            <button class="play-btn">▶ Play</button>
+          </div>
+        </div>
+
+        <div class="lecture-card">
+          <div class="lecture-thumb" style="background: #FCE7F3;">💻</div>
+          <div class="lecture-info">
+            <h4>Python Programming - Object Oriented Concepts</h4>
+            <p style="color:#64748B; font-size:14px; margin-top:5px;">Mr. Vikash Singh • Programming</p>
+          </div>
+          <div class="lecture-action">
+            <div class="lecture-date" style="color:#64748B; font-size:12px; margin-bottom:8px;">Uploaded on 02/10/2025</div>
+            <button class="play-btn">▶ Play</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="right-sidebar">
+    
+    <div class="widget">
+      <h3 style="margin-bottom: 20px; font-size:18px;">Recently Accessed</h3>
+      <div class="widget-list">
+        <div class="compact-item">
+          <div class="icon" style="background: #DCFCE7;">⚛️</div>
+          <div>
+            <h4 style="font-size:14px; margin-bottom:3px;">Atomic Structure</h4>
+            <span style="font-size:12px; color:#64748B;">Chemistry • 2 hours ago</span>
+          </div>
+        </div>
+        <div class="compact-item">
+          <div class="icon" style="background: #FEF3C7;">📐</div>
+          <div>
+            <h4 style="font-size:14px; margin-bottom:3px;">Derivatives</h4>
+            <span style="font-size:12px; color:#64748B;">Mathematics • 1 day ago</span>
+          </div>
+        </div>
+        <div class="compact-item">
+          <div class="icon" style="background: #FCE7F3;">💻</div>
+          <div>
+            <h4 style="font-size:14px; margin-bottom:3px;">Data Structures</h4>
+            <span style="font-size:12px; color:#64748B;">Programming • 2 days ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget" style="margin-top: 30px;">
+      <h3 style="margin-bottom: 20px; font-size:18px;">Recommended for You</h3>
+      
+      <div class="recommended-card" style="margin-bottom:15px; border:1px solid #E2E8F0; padding:15px; border-radius:12px;">
+        <div style="height:100px; background:#E0E7FF; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:30px; margin-bottom:15px;">⚛️</div>
+        <h4 style="font-size:14px; margin-bottom:5px;">Thermodynamics Basics</h4>
+        <div style="font-size:12px; color:#64748B; margin-bottom:15px;">Physics • 35 min</div>
+        <button style="width:100%; padding:8px; background: transparent; border: 1px solid #2563EB; color: #2563EB; border-radius:6px; cursor:pointer; font-weight:500;">View Lesson</button>
+      </div>
+      
+      <div class="recommended-card" style="border:1px solid #E2E8F0; padding:15px; border-radius:12px;">
+        <div style="height:100px; background:#FCE7F3; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:30px; margin-bottom:15px;">💻</div>
+        <h4 style="font-size:14px; margin-bottom:5px;">Web Development Intro</h4>
+        <div style="font-size:12px; color:#64748B; margin-bottom:15px;">Programming • 42 min</div>
+        <button style="width:100%; padding:8px; background: transparent; border: 1px solid #2563EB; color: #2563EB; border-radius:6px; cursor:pointer; font-weight:500;">View Lesson</button>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Profile</h3>
+      <button class="close-btn" id="closeModalBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="editNameInput" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>Class / Course</label>
+        <input type="text" id="editClassInput" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>School Name</label>
+        <input type="text" id="editSchoolInput" class="form-input">
+      </div>
+      <div class="form-group">
+        <label>School Roll No</label>
+        <input type="text" id="editRollInput" class="form-input">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancelModalBtn">Cancel</button>
+      <button class="primary-btn" id="saveProfileBtn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Take Quiz Modal -->
+<div class="modal-overlay" id="takeQuizModal">
+  <div class="modal-content" style="max-width:620px;max-height:90vh;display:flex;flex-direction:column;">
+    <div class="modal-header">
+      <div>
+        <h3 id="takeQuizTitle">Quiz</h3>
+        <p id="takeQuizMeta" style="font-size:12px;color:#64748B;margin-top:2px;"></p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="quizTimer" style="font-size:14px;font-weight:600;color:#EF4444;"></span>
+        <button class="close-btn" id="closeTakeQuizBtn">✕</button>
+      </div>
+    </div>
+    <!-- Questions view -->
+    <div id="quizQuestionsView" style="overflow-y:auto;flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:20px;"></div>
+    <!-- Result view -->
+    <div id="quizResultView" style="display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;">
+      <div style="font-size:56px;margin-bottom:12px;">🎉</div>
+      <h2 id="resultScore" style="font-size:32px;color:#4F46E5;"></h2>
+      <p id="resultText" style="color:#64748B;margin-top:8px;"></p>
+      <button id="retryQuizBtn" class="primary-btn" style="margin-top:20px;">Close</button>
+    </div>
+    <div class="modal-footer" id="quizFooter">
+      <button class="secondary-btn" id="cancelTakeQuizBtn">Cancel</button>
+      <button class="primary-btn" id="submitQuizBtn">📝 Submit Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script src="student.js?v=3"></script>
+
+</body>
+</html>
