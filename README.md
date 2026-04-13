@@ -1,39 +1,48 @@
 # SETU – Smart E-Learning Platform 🎓
-### *Low Bandwidth Learning for Everyone*
+### *Bridge the Divide with Low-Bandwidth, AI-Powered Learning*
 
-**SETU** is a high-efficiency e-learning platform specifically designed to bridge the education gap in rural institutions where internet connectivity is often unstable or slow. By prioritizing low-bandwidth optimizations and an audio-first approach, SETU ensures that quality education is never hindered by infrastructure limitations.
+**SETU** is a high-efficiency e-learning platform specifically designed to bridge the education gap in rural institutions where internet connectivity is often unstable or slow. By combining low-bandwidth optimizations with cutting-edge **Generative AI**, SETU ensures that quality education is never hindered by infrastructure limitations.
 
 ---
 
 ## 🚀 Key Features
 
--   **📶 Low Bandwidth Optimization**: Optimized for 2G/3G networks, ensuring smooth access to learning materials.
--   **🎧 Audio-First Learning**: High-quality audio delivery that works seamlessly even on the weakest connections.
+-   **🤖 AI-Powered Quiz Extraction**: Automatically extract Multiple Choice Questions (MCQs) from PDF and DOCX study materials using Google Gemini AI, saving teachers hours of manual work.
+-   **🔐 Secure Multi-Channel Auth**: 
+    -   **Google OAuth 2.0 Integration**: One-tap secure login for students and teachers.
+    -   **OTP Verification**: Email-based One-Time Password verification for secure registration.
+-   **📊 Real-Time Analytics Dashboard**: Live tracking of students, active sessions, and uploaded content for comprehensive overview at a glance.
+-   **📶 Low Bandwidth Optimization**: Optimized data fetching and audio-first delivery that works seamlessly on 2G/3G networks.
+-   **📝 Persistent Learning Path**: Student quiz attempts, scores, and detailed answer explanations are stored persistently for progress tracking.
+-   **🎧 Audio-First Content**: High-quality audio delivery prioritized to ensure content accessibility even on the weakest connections.
 -   **📲 Progressive Web App (PWA)**: A lightweight experience that runs on any device without requiring heavy downloads or high-end hardware.
--   **👨‍🏫 Teacher & Student Dashboards**: Dedicated interfaces for managing courses, tracking progress, and conducting live sessions.
--   **📝 Smart Quizzes**: Interactive quiz modules for real-time assessment and feedback.
--   **📦 Resilient Downloads**: Support for offline learning and resume-able downloads for unstable connections.
--   **⚡ AI-Assisted Learning**: Integrated smart features to assist students in their learning journey.
 
 ---
 
 ## 🛠️ Tech Stack
 
 -   **Frontend**: 
-    -   HTML5, CSS3 (Modern, responsive UI)
-    -   JavaScript (Vanilla & Node-based logic)
-    -   Google Fonts (Roboto)
+    -   **Core**: HTML5, CSS3 (Modern Glassmorphic UI)
+    -   **Logic**: Vanilla JavaScript
+    -   **Typography**: Google Fonts (Outfit, Inter)
 -   **Backend**: 
-    -   **Primary**: PHP (Optimized for XAMPP/LAMP environments)
+    -   **Primary**: PHP (Optimized for performance)
+    -   **Intelligence**: Google Gemini AI (Flash 1.5/2.0 Models)
     -   **Alternative**: Node.js + Express (located in `server.js`)
 -   **Database**: 
     -   **Primary**: MySQL (via XAMPP)
-    -   **Alternative**: SQLite (`database.sqlite`)
+    -   **Local Development**: SQLite (`database.sqlite`)
 
 ---
 
-## ⚙️ Setup Instructions (XAMPP / PHP)
+## ⚙️ Setup Instructions
 
+### 1. Prerequisites
+- **XAMPP** (Apache & MySQL)
+- **Google Cloud Console Project** (for OAuth2)
+- **Google Gemini API Key**
+
+### 2. Installation
 1.  **Clone the Repository**:
     ```bash
     git clone https://github.com/your-repo/SETU.git
@@ -41,46 +50,41 @@
 2.  **Move to Web Root**:
     Copy the `SETU` folder to your `C:\xampp\htdocs\` directory.
 3.  **Database Setup**:
-    -   Start **Apache** and **MySQL** from the XAMPP Control Panel.
+    -   Start **Apache** and **MySQL** from XAMPP.
     -   Open [phpMyAdmin](http://localhost/phpmyadmin/).
-    -   Create a new database named `setu_db`.
-    -   Import the `setup.sql` file provided in the root directory.
-4.  **Configuration**:
-    -   Check `db_connect.php` to ensure the MySQL credentials (`root`, empty password) match your environment.
-5.  **Run the Application**:
-    -   Navigate to `http://localhost/SETU/login.html` in your browser.
+    -   Create a database named `setu_db`.
+    -   Import `setup.sql` from the root directory.
 
-### 🟢 Alternative: Node.js Backend
-If you prefer running the Node.js version:
-1.  Install dependencies:
-    ```bash
-    npm install
+### 3. Configuration
+1.  Locate `config.php` in the root directory.
+2.  Add your credentials:
+    ```php
+    define('GOOGLE_CLIENT_ID', 'YOUR_GOOGLE_CLIENT_ID');
+    define('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY');
     ```
-2.  Start the server:
-    ```bash
-    npm start
-    ```
-    *Note: This uses the SQLite database by default.*
+
+### 4. Run Application
+-   Navigate to `http://localhost/SETU/index.html` (Landing Page) or `login.html`.
 
 ---
 
 ## 📁 Project Structure
 
--   `index.html`: Main landing page with platform overview.
--   `student.html` / `teacher.html`: Role-based dashboard interfaces.
--   `setup.sql`: Database schema and initial configuration.
--   `db_connect.php`: Centralized database connection logic.
--   `uploads/`: Directory for stored learning materials.
--   `script.js`, `student.js`, `teacher.js`: Frontend logic for different modules.
--   `server.js`: Node.js/Express backend implementation.
+-   `index.html`: Modern landing page with globe visualization.
+-   `student.html` / `teacher.html`: Role-specific dashboard interfaces.
+-   `process_ai_quiz.php`: Backend logic for AI MCQ extraction using Gemini.
+-   `google_auth.php` / `otp_handler.php`: Advanced authentication handlers.
+-   `db_connect.php`: Database connection layer.
+-   `uploads/`: Directory for learning materials.
+-   `setup.sql`: Core database schema.
 
 ---
 
 ## 🤝 Contributing
-Contributions are welcome! If you have ideas for improving low-bandwidth performance or adding new features, feel free to fork the repo and submit a PR.
+Contributions are welcome! If you have ideas for improving AI features or network resilience, feel free to fork and PR.
 
 ---
 
 ## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-"# SETU" 
+This project is licensed under the MIT License.
+
