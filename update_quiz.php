@@ -37,7 +37,7 @@ $conn->query("DELETE FROM quiz_questions WHERE quiz_id = $quiz_id");
 
 if (!empty($questions)) {
     $qstmt = $conn->prepare(
-        "INSERT INTO quiz_questions (quiz_id, question_text, option_a, option_b, option_c, option_d, correct_option) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO quiz_questions (quiz_id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     );
     foreach ($questions as $q) {
         $qtext   = trim($q['question_text'] ?? '');
@@ -46,8 +46,9 @@ if (!empty($questions)) {
         $opt_c   = trim($q['option_c'] ?? '');
         $opt_d   = trim($q['option_d'] ?? '');
         $correct = strtoupper(trim($q['correct_option'] ?? 'A'));
+        $expl    = trim($q['explanation'] ?? '');
         if (empty($qtext) || empty($opt_a) || empty($opt_b)) continue;
-        $qstmt->bind_param("issssss", $quiz_id, $qtext, $opt_a, $opt_b, $opt_c, $opt_d, $correct);
+        $qstmt->bind_param("isssssss", $quiz_id, $qtext, $opt_a, $opt_b, $opt_c, $opt_d, $correct, $expl);
         $qstmt->execute();
     }
     $qstmt->close();

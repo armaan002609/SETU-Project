@@ -31,7 +31,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   loadDashboardStats();
-  // ─────────────────────────────────────────────────────────────────────────
+  
+  // ── Quiz Retake Requests ────────────────────────────────────────────────
+  async function loadRetakeRequests() {
+    const email = localStorage.getItem("setu_user_email");
+    const container = document.getElementById("retakeRequestsTableBody");
+    const badge = document.getElementById("retakeCountBadge");
+    if (!email || !container) return;
+
+    try {
+      const res = await fetch("quiz_retake_handler.php", {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ action: 'fetch_requests', email })
+      });
+      const data = await res.json();
+      if (!data.success) return;
+
+      const requests = data.requests || [];
+      if (badge) {
+        badge.textContent = requests.length;
+        badge.style.display = requests.length > 0 ? "inline-block" : "none";
+      }
+
+      if (requests.length === 0) {
+        container.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#94A3B8; padding:20px;">No pending retake requests.</td></tr>`;
+        return;
+      }
+
+      container.innerHTML = requests.map(r => {
+        const scorePerc = r.total_questions > 0 ? Math.round((r.score / r.total_questions)*100) : 0;
+        return `
+          <tr>
+            <td>
+              <div style="font-weight:600; color:#0F172A;">${r.student_name}</div>
+              <div style="font-size:11px; color:#64748B;">${r.student_email}</div>
+            </td>
+            <td><strong>${r.quiz_title}</strong></td>
+            <td>${r.score} / ${r.total_questions} (${scorePerc}%)</td>
+            <td>Just now</td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button onclick="window._handleRetake(${r.quiz_id}, '${r.student_email}', 'approve_retake')"
+                  style="background:#DCFCE7; color:#059669; border:none; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:600; cursor:pointer;">Approve</button>
+                <button onclick="window._handleRetake(${r.quiz_id}, '${r.student_email}', 'reject_retake')"
+                  style="background:#FEE2E2; color:#DC2626; border:none; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:600; cursor:pointer;">Ignore</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    } catch(e) { console.error("Retake requests load fail:", e); }
+  }
+  
+  window._handleRetake = async (quizId, studentEmail, action) => {
+    const email = localStorage.getItem("setu_user_email"); // teacher email
+    try {
+      const res = await fetch("quiz_retake_handler.php", {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ action, quiz_id: quizId, student_email: studentEmail, email })
+      });
+      const data = await res.json();
+      if (data.success) {
+        loadRetakeRequests();
+        alert(action === 'approve_retake' ? "Retake approved! Student can now restart the quiz." : "Request ignored.");
+      } else { alert("Action failed: " + data.error); }
+    } catch(e) { alert("Network error."); }
+  };
+
+  loadRetakeRequests();
+  // ────────────────────────────────────────────────────────────────────────
 
   // ── Live Classes Sidebar Accordion ──────────────────────────────────────
   const liveClassesToggle = document.getElementById("liveClassesToggle");
@@ -210,6 +278,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <select class="form-input eq-correct">
           ${['A','B','C','D'].map(l=>`<option value="${l}" ${(q.correct_option||'A')===l?'selected':''}>${l}</option>`).join('')}
         </select>
+      </div>
+      <div class="form-group" style="margin-top:8px;">
+        <label>Solution / Explanation</label>
+        <textarea class="form-input eq-explanation" rows="2" placeholder="Explain the correct answer...">${q.explanation||''}</textarea>
       </div>`;
     return div;
   }
@@ -266,8 +338,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const opt_c   = card.querySelector(".eq-opt-c").value.trim();
         const opt_d   = card.querySelector(".eq-opt-d").value.trim();
         const correct = card.querySelector(".eq-correct").value;
+        const expl    = card.querySelector(".eq-explanation").value.trim();
         if (!qtext || !opt_a || !opt_b) { alert("Each question needs text, Option A and B."); valid = false; return; }
-        questions.push({ question_text: qtext, option_a: opt_a, option_b: opt_b, option_c: opt_c, option_d: opt_d, correct_option: correct });
+        questions.push({ question_text: qtext, option_a: opt_a, option_b: opt_b, option_c: opt_c, option_d: opt_d, correct_option: correct, explanation: expl });
       });
       if (!valid) return;
 
@@ -688,41 +761,122 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizModalStep      = document.getElementById("quizModalStep");
   const questionsContainer = document.getElementById("questionsContainer");
   const addQuestionBtn     = document.getElementById("addQuestionBtn");
+  const btnAIUpload        = document.getElementById("btnAIUpload");
+  const aiQuizFileInput    = document.getElementById("aiQuizFileInput");
+  const aiLoadingStatus    = document.getElementById("aiLoadingStatus");
 
   let quizQuestionCount = 0;
 
-  function addQuestionCard() {
+  function addQuestionCard(qData = null) {
     quizQuestionCount++;
     const idx = quizQuestionCount;
     const card = document.createElement("div");
     card.id = `qcard-${idx}`;
     card.style.cssText = "background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px;position:relative;";
+    
+    const qText = qData ? qData.question_text : "";
+    const optA  = qData ? qData.option_a : "";
+    const optB  = qData ? qData.option_b : "";
+    const optC  = qData ? qData.option_c : "";
+    const optD  = qData ? qData.option_d : "";
+    const correct = qData ? qData.correct_option : "A";
+    const expl  = qData ? qData.explanation : "";
+
     card.innerHTML = `
       <button onclick="document.getElementById('qcard-${idx}').remove();"
         style="position:absolute;top:10px;right:12px;background:none;border:none;color:#EF4444;font-size:16px;cursor:pointer;" title="Remove">✕</button>
       <p style="font-size:13px;font-weight:600;color:#4F46E5;margin-bottom:10px;">Question ${idx}</p>
       <div class="form-group">
         <label>Question Text</label>
-        <input type="text" class="form-input q-text" placeholder="e.g. What is Newton's 2nd law?">
+        <input type="text" class="form-input q-text" placeholder="e.g. What is Newton's 2nd law?" value="${qText.replace(/"/g, '&quot;')}">
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
-        <div class="form-group"><label>Option A</label><input type="text" class="form-input q-opt-a" placeholder="Option A"></div>
-        <div class="form-group"><label>Option B</label><input type="text" class="form-input q-opt-b" placeholder="Option B"></div>
-        <div class="form-group"><label>Option C (optional)</label><input type="text" class="form-input q-opt-c" placeholder="Option C"></div>
-        <div class="form-group"><label>Option D (optional)</label><input type="text" class="form-input q-opt-d" placeholder="Option D"></div>
+        <div class="form-group"><label>Option A</label><input type="text" class="form-input q-opt-a" placeholder="Option A" value="${optA.replace(/"/g, '&quot;')}"></div>
+        <div class="form-group"><label>Option B</label><input type="text" class="form-input q-opt-b" placeholder="Option B" value="${optB.replace(/"/g, '&quot;')}"></div>
+        <div class="form-group"><label>Option C (optional)</label><input type="text" class="form-input q-opt-c" placeholder="Option C" value="${optC.replace(/"/g, '&quot;')}"></div>
+        <div class="form-group"><label>Option D (optional)</label><input type="text" class="form-input q-opt-d" placeholder="Option D" value="${optD.replace(/"/g, '&quot;')}"></div>
       </div>
       <div class="form-group" style="margin-top:8px;">
         <label>Correct Answer</label>
         <select class="form-input q-correct">
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
+          ${['A','B','C','D'].map(l=>`<option value="${l}" ${correct===l?'selected':''}>${l}</option>`).join('')}
         </select>
+      </div>
+      <div class="form-group" style="margin-top:8px;">
+        <label>Solution / Explanation</label>
+        <textarea class="form-input q-explanation" rows="2" placeholder="Explain the correct answer...">${expl}</textarea>
       </div>
     `;
     questionsContainer.appendChild(card);
     card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  // AI Upload Handling
+  if (btnAIUpload && aiQuizFileInput) {
+    btnAIUpload.addEventListener("click", () => {
+      console.log("AI Upload button clicked");
+      aiQuizFileInput.click();
+    });
+    
+    aiQuizFileInput.addEventListener("change", async (e) => {
+      console.log("File input changed", e.target.files);
+      const file = e.target.files[0];
+      if (!file) {
+        console.warn("No file selected");
+        return;
+      }
+
+      const title = quizTitleInput.value.trim();
+      if (!title) { 
+        alert("Please provide a Quiz Title first so AI can contextualize!"); 
+        e.target.value=""; 
+        return; 
+      }
+
+      console.log(`Starting AI processing for file: ${file.name}, Title: ${title}`);
+      aiLoadingStatus.style.display = "block";
+      btnAIUpload.disabled = true;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch("process_ai_quiz.php", {
+          method: "POST",
+          body: formData
+        });
+        
+        console.log("Response received from process_ai_quiz.php", res);
+        const data = await res.json();
+        console.log("Data parsed:", data);
+
+        if (data.success && data.questions) {
+          console.log(`Successfully generated ${data.questions.length} questions`);
+          // Transition to Step 2
+          quizStep1.style.display = "none";
+          quizStep2.style.display = "flex";
+          quizNextBtn.style.display = "none";
+          postQuizSubmitBtn.style.display = "inline-flex";
+          quizModalStep.textContent = "Step 2 of 2 — AI Generated Questions Review";
+          
+          questionsContainer.innerHTML = "";
+          quizQuestionCount = 0;
+          
+          data.questions.forEach(q => addQuestionCard(q));
+          alert(`Successfully generated ${data.questions.length} questions from your document!`);
+        } else {
+          console.error("AI Generation Error:", data.error, data.details);
+          alert("AI Parsing failed: " + (data.error || "Unknown error"));
+        }
+      } catch (err) {
+        console.error("Network Error during AI processing:", err);
+        alert("Network error processing document with AI. Check console for details.");
+      } finally {
+        aiLoadingStatus.style.display = "none";
+        btnAIUpload.disabled = false;
+        e.target.value = ""; // reset file input
+      }
+    });
   }
 
   function resetQuizModal() {
@@ -782,8 +936,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const opt_c   = card.querySelector(".q-opt-c").value.trim();
         const opt_d   = card.querySelector(".q-opt-d").value.trim();
         const correct = card.querySelector(".q-correct").value;
+        const expl    = card.querySelector(".q-explanation").value.trim();
         if (!qtext || !opt_a || !opt_b) { alert("Every question needs text, Option A, and Option B."); valid = false; return; }
-        questions.push({ question_text: qtext, option_a: opt_a, option_b: opt_b, option_c: opt_c, option_d: opt_d, correct_option: correct });
+        questions.push({ question_text: qtext, option_a: opt_a, option_b: opt_b, option_c: opt_c, option_d: opt_d, correct_option: correct, explanation: expl });
       });
       if (!valid) return;
 

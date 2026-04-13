@@ -25,8 +25,8 @@ if ($check->get_result()->num_rows === 0) {
 $check->close();
 
 $stmt = $conn->prepare(
-    "INSERT INTO quiz_questions (quiz_id, question_text, option_a, option_b, option_c, option_d, correct_option)
-     VALUES (?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO quiz_questions (quiz_id, question_text, option_a, option_b, option_c, option_d, correct_option, explanation)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 );
 
 $saved = 0;
@@ -37,10 +37,11 @@ foreach ($questions as $q) {
     $opt_c   = trim($q['option_c'] ?? '');
     $opt_d   = trim($q['option_d'] ?? '');
     $correct = strtoupper(trim($q['correct_option'] ?? 'A'));
+    $expl    = trim($q['explanation'] ?? '');
 
     if (empty($qtext) || empty($opt_a) || empty($opt_b)) continue; // need at least 2 options
 
-    $stmt->bind_param("issssss", $quiz_id, $qtext, $opt_a, $opt_b, $opt_c, $opt_d, $correct);
+    $stmt->bind_param("isssssss", $quiz_id, $qtext, $opt_a, $opt_b, $opt_c, $opt_d, $correct, $expl);
     if ($stmt->execute()) $saved++;
 }
 $stmt->close();

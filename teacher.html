@@ -177,6 +177,33 @@
       </div>
     </section>
 
+    <!-- RETAKE REQUESTS -->
+    <section class="retake-requests" style="margin-top: 40px; margin-bottom: 40px;">
+      <div class="section-header" style="margin-bottom:20px;">
+        <h2 style="display:flex; align-items:center; gap:10px;">🔄 Quiz Retake Requests <span id="retakeCountBadge" style="background:#EF4444; color:#fff; border-radius:10px; padding:2px 8px; font-size:12px; display:none;">0</span></h2>
+        <p style="color:#64748B;">Students requesting another attempt for specific quizzes</p>
+      </div>
+      
+      <div class="records-table-container" style="background:#FFF7ED; border: 1px solid #FFEDD5;">
+        <table class="records-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Quiz Title</th>
+              <th>Previous Score</th>
+              <th>Request Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="retakeRequestsTableBody">
+            <tr>
+              <td colspan="5" style="text-align:center; color:#94A3B8; padding:20px;">No pending retake requests.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
   </main>
 
   <!-- RIGHT SIDEBAR -->
@@ -323,6 +350,16 @@
       <div class="form-group">
         <label>Duration (Minutes)</label>
         <input type="number" id="quizDurationInput" class="form-input" placeholder="30">
+      </div>
+      
+      <div style="margin-top: 20px; padding: 15px; background: #F0F9FF; border: 1px dashed #0EA5E9; border-radius: 12px; text-align: center;">
+        <p style="font-size: 13px; color: #0369A1; margin-bottom: 10px;">⚡ <strong>Quick Generate with AI</strong></p>
+        <p style="font-size: 12px; color: #64748B; margin-bottom: 12px;">Upload a PDF or Word file and SETU AI will extract questions and solutions for you!</p>
+        <input type="file" id="aiQuizFileInput" style="display:none;" accept=".pdf,.doc,.docx">
+        <button type="button" id="btnAIUpload" class="secondary-btn" style="background:#fff; border:1px solid #0EA5E9; color:#0EA5E9; width:100%;">📁 Upload PDF/Word Document</button>
+        <div id="aiLoadingStatus" style="display:none; margin-top:10px;">
+          <div class="blinking" style="font-size:12px; color:#0EA5E9;">⚙️ AI is analyzing your document...</div>
+        </div>
       </div>
     </div>
 

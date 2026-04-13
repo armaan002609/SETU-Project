@@ -22,7 +22,29 @@ document.querySelectorAll(".role-btn").forEach(btn=>{
   });
 });
 
-// REGISTER SUBMIT (Connected to SQL Backend)
+// OTP Modal Elements
+const otpModal = document.getElementById("otpModal");
+const otpInputs = document.querySelectorAll(".otp-input");
+const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+const displayEmail = document.getElementById("displayEmail");
+
+// Auto-focus OTP inputs
+otpInputs.forEach((input, index) => {
+  input.addEventListener("input", (e) => {
+    if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+      otpInputs[index + 1].focus();
+    }
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Backspace" && e.target.value.length === 0 && index > 0) {
+      otpInputs[index - 1].focus();
+    }
+  });
+});
+
+let pendingRegistrationData = null;
+
+// REGISTER SUBMIT - Now triggers OTP first
 document.getElementById("registerForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
@@ -31,55 +53,88 @@ document.getElementById("registerForm").addEventListener("submit", async (e)=>{
   const password = document.getElementById("registerPassword").value;
   const confirm = document.getElementById("registerConfirm").value;
 
+  if(password !== confirm) { alert("Passwords do not match!"); return; }
+
   let subject = null;
   let school_name = null;
   let class_name = null;
 
   if(selectedRole === "Teacher") {
-      const subjInput = document.getElementById("registerSubject");
-      if(subjInput) subject = subjInput.value.trim();
-      if(!subject) {
-          alert("Please specify the subject you teach!");
-          return;
-      }
+      subject = document.getElementById("registerSubject").value.trim();
   } else {
-      const schInput = document.getElementById("registerSchool");
-      const clsInput = document.getElementById("registerClass");
-      if(schInput) school_name = schInput.value.trim();
-      if(clsInput) class_name = clsInput.value.trim();
+      school_name = document.getElementById("registerSchool").value.trim();
+      class_name = document.getElementById("registerClass").value.trim();
   }
 
-  if(password !== confirm) {
-    alert("Passwords do not match!");
-    return;
-  }
+  pendingRegistrationData = { fullname, email, password, role: selectedRole, subject, school_name, class_name };
 
-  // Disable button to prevent multi-submit
-  const submitBtn = e.target.querySelector("button[type='submit']");
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = "Registering...";
+  // Trigger OTP Send
+  const submitBtn = document.getElementById("registerSubmitBtn");
   submitBtn.disabled = true;
+  submitBtn.textContent = "Sending OTP...";
 
+  try {
+    const res = await fetch("otp_handler.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "send_otp", email })
+    });
+    const data = await res.json();
+    if (data.success) {
+      displayEmail.textContent = email;
+      otpModal.classList.add("active");
+      // MOCK MODE: Show OTP for testing
+      if (data.otp) {
+        alert("MOCK MODE: Your OTP is " + data.otp);
+        console.log("MOCK OTP:", data.otp);
+      }
+    } else {
+      alert("Error: " + data.error);
+    }
+  } catch (e) { alert("Network error sending OTP."); }
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Register";
+});
+
+// VERIFY OTP & COMPLETE REGISTRATION
+verifyOtpBtn.addEventListener("click", async () => {
+  const code = Array.from(otpInputs).map(i => i.value).join('');
+  if (code.length < 6) { alert("Enter the 6-digit code."); return; }
+
+  verifyOtpBtn.disabled = true;
+  verifyOtpBtn.textContent = "Verifying...";
+
+  try {
+    const res = await fetch("otp_handler.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "verify_otp", email: pendingRegistrationData.email, code })
+    });
+    const data = await res.json();
+    if (data.success) {
+      // OTP Verified, now complete the DB registration
+      completeRegistration();
+    } else {
+      alert("Invalid OTP code. Please try again.");
+      verifyOtpBtn.disabled = false;
+      verifyOtpBtn.textContent = "Verify & Register";
+    }
+  } catch (e) { alert("Verification failed."); verifyOtpBtn.disabled = false; }
+});
+
+async function completeRegistration() {
   try {
     const res = await fetch('register.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fullname: fullname, email, password, role: selectedRole, subject, school_name, class_name })
+      body: JSON.stringify(pendingRegistrationData)
     });
-
     const data = await res.json();
-    
-    if(res.ok) {
-        alert("Account Created Successfully! Your data is saved securely in the Database.");
+    if(data.success) {
+        alert("Account Verified & Created Successfully!");
         window.location.href = "login.html";
     } else {
         alert("Registration Failed: " + data.error);
     }
-  } catch(err) {
-    console.error(err);
-    alert("Could not connect to the Backend Server. Make sure node server.js is running!");
-  } finally {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-  }
-});
+  } catch(err) { alert("Final registration step failed."); }
+}

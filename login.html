@@ -10,6 +10,7 @@
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="login.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -50,13 +51,25 @@
 
     <!-- SOCIAL LOGIN -->
     <div class="social-login">
+      <!-- Google Sign In Button Container -->
+      <div id="g_id_onload"
+           data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"
+           data-context="signin"
+           data-ux_mode="popup"
+           data-callback="handleGoogleSignIn"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rectangular"
+           data-theme="outline"
+           data-text="signin_with"
+           data-size="large"
+           data-logo_alignment="left"
+           data-width="100%">
+      </div>
 
-      <button type="button" class="social-btn google">
-        <img src="https://www.svgrepo.com/show/475656/google-color.svg">
-        Continue with Google
-      </button>
-
-      <button type="button" class="social-btn microsoft">
+      <button type="button" class="social-btn microsoft" style="margin-top: 10px;">
         <img src="https://www.svgrepo.com/show/448239/microsoft.svg">
         Continue with Microsoft
       </button>

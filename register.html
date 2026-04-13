@@ -10,6 +10,26 @@
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="login.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+  /* OTP Modal Styles */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center; z-index: 1000;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-content {
+    background: #fff; padding: 30px; border-radius: 20px; width: 100%; max-width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  .otp-inputs { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+  .otp-input {
+    width: 45px; height: 50px; text-align: center; font-size: 24px; font-weight: 700;
+    border: 2px solid #E2E8F0; border-radius: 12px; color: #0F172A;
+  }
+  .otp-input:focus { border-color: #2563EB; outline: none; }
+</style>
 </head>
 
 <body>
@@ -27,13 +47,12 @@
 
     <!-- ROLE SELECT -->
     <div class="role-select">
-      <button type="button" class="role-btn active">🎓 Student</button>
-      <button type="button" class="role-btn">👨‍🏫 Teacher</button>
+      <button type="button" class="role-btn active" id="roleStudent">🎓 Student</button>
+      <button type="button" class="role-btn" id="roleTeacher">👨‍🏫 Teacher</button>
     </div>
 
     <!-- REGISTER FORM -->
     <form id="registerForm">
-
       <label>Full Name</label>
       <input type="text" id="registerName" placeholder="Enter full name" required>
 
@@ -48,7 +67,6 @@
       <div id="studentWrapper" style="margin-bottom: 20px;">
         <label>School / College Name</label>
         <input type="text" id="registerSchool" placeholder="e.g. Delhi Public School">
-        
         <label style="margin-top: 10px; display:block;">Class / Course</label>
         <input type="text" id="registerClass" placeholder="e.g. Class 12th Science">
       </div>
@@ -59,8 +77,7 @@
       <label>Confirm Password</label>
       <input type="password" id="registerConfirm" placeholder="Confirm password" required>
 
-      <button type="submit" class="primary full">Register</button>
-
+      <button type="submit" class="primary full" id="registerSubmitBtn">Register</button>
     </form>
 
     <!-- DIVIDER -->
@@ -70,17 +87,27 @@
 
     <!-- SOCIAL REGISTER -->
     <div class="social-login">
+      <div id="g_id_onload"
+           data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"
+           data-context="signup"
+           data-ux_mode="popup"
+           data-callback="handleGoogleSignIn"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rectangular"
+           data-theme="outline"
+           data-text="signup_with"
+           data-size="large"
+           data-logo_alignment="left"
+           data-width="100%">
+      </div>
 
-      <button type="button" class="social-btn google">
-        <img src="https://www.svgrepo.com/show/475656/google-color.svg">
-        Continue with Google
-      </button>
-
-      <button type="button" class="social-btn microsoft">
+      <button type="button" class="social-btn microsoft" style="margin-top: 10px;">
         <img src="https://www.svgrepo.com/show/448239/microsoft.svg">
         Continue with Microsoft
       </button>
-
     </div>
 
     <!-- FOOTER -->
@@ -92,6 +119,30 @@
 
 </div>
 
+<!-- OTP MODAL -->
+<div class="modal-overlay" id="otpModal">
+  <div class="modal-content">
+    <div style="text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 15px;">📧</div>
+      <h3 style="color: #0F172A; margin-bottom: 8px;">Verify Your Email</h3>
+      <p style="color: #64748B; font-size: 14px;">We've sent a 6-digit code to <br><strong id="displayEmail">user@example.com</strong></p>
+      
+      <div class="otp-inputs">
+        <input type="text" maxlength="1" class="otp-input" id="otp1">
+        <input type="text" maxlength="1" class="otp-input" id="otp2">
+        <input type="text" maxlength="1" class="otp-input" id="otp3">
+        <input type="text" maxlength="1" class="otp-input" id="otp4">
+        <input type="text" maxlength="1" class="otp-input" id="otp5">
+        <input type="text" maxlength="1" class="otp-input" id="otp6">
+      </div>
+      
+      <button id="verifyOtpBtn" class="primary full">Verify & Register</button>
+      <p style="margin-top: 15px; font-size: 13px; color: #64748B;">Didn't get the code? <a href="#" id="resendOtp">Resend</a></p>
+    </div>
+  </div>
+</div>
+
 <script src="register.js?v=2"></script>
+<script src="login.js?v=3"></script> <!-- For handleGoogleSignIn share -->
 </body>
 </html>

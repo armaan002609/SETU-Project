@@ -78,10 +78,41 @@ try {
         option_c VARCHAR(255) DEFAULT NULL,
         option_d VARCHAR(255) DEFAULT NULL,
         correct_option CHAR(1) NOT NULL DEFAULT 'A',
+        explanation TEXT DEFAULT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
     )");
+
+    // Migration for existing table
+    $check_explanation = $conn->query("SHOW COLUMNS FROM quiz_questions LIKE 'explanation'");
+    if ($check_explanation && $check_explanation->num_rows == 0) {
+        $conn->query("ALTER TABLE quiz_questions ADD COLUMN explanation TEXT DEFAULT NULL");
+    }
 } catch (Exception $e) {
     // Silently ignore permission/structural exceptions natively gracefully 
 }
+// ── Quiz Migration: ensure retake columns exist ───────────────────────
+$check = $conn->query("SHOW COLUMNS FROM quiz_attempts LIKE 'retake_requested'");
+if ($check->num_rows === 0) {
+    $conn->query("ALTER TABLE quiz_attempts ADD COLUMN retake_requested TINYINT DEFAULT 0 AFTER total_questions");
+}
+$check2 = $conn->query("SHOW COLUMNS FROM quiz_attempts LIKE 'retake_allowed'");
+if ($check2->num_rows === 0) {
+    $conn->query("ALTER TABLE quiz_attempts ADD COLUMN retake_allowed TINYINT DEFAULT 0 AFTER retake_requested");
+}
+// ── Auth Migration: ensure is_verified exists ───────────────────────
+$check3 = $conn->query("SHOW COLUMNS FROM users LIKE 'is_verified'");
+if ($check3->num_rows === 0) {
+    $conn->query("ALTER TABLE users ADD COLUMN is_verified TINYINT(1) DEFAULT 0 AFTER roll_no");
+}
+$conn->query("CREATE TABLE IF NOT EXISTS user_verifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    otp_code VARCHAR(6) NOT NULL,
+    type VARCHAR(50) DEFAULT 'REGISTRATION',
+    expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL 10 MINUTE),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
+// ─────────────────────────────────────────────────────────────────────────
+
 ?>

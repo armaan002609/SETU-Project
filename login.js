@@ -68,3 +68,34 @@ document.getElementById("loginForm").addEventListener("submit", async(e)=>{
     submitBtn.disabled = false;
   }
 });
+
+// Google Sign-In Callback
+window.handleGoogleSignIn = async (response) => {
+  const statusMsg = document.getElementById("loginStatus");
+  if(statusMsg) statusMsg.textContent = "Authenticating with Google...";
+  
+  try {
+    const res = await fetch('google_auth.php', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id_token: response.credential })
+    });
+    const data = await res.json();
+    if(data.success) {
+        if(statusMsg) {
+          statusMsg.style.color = "green";
+          statusMsg.textContent = "Google Login Success! Redirecting...";
+        }
+        if (data.role === 'Teacher') {
+          localStorage.setItem("setu_teacher_name", data.fullname);
+          localStorage.setItem("setu_user_email", data.email || "");
+          if (data.subject) localStorage.setItem("setu_teacher_dept", data.subject);
+          window.location.assign("teacher.html");
+        } else {
+          localStorage.setItem("setu_student_name", data.fullname);
+          localStorage.setItem("setu_user_email", data.email || "");
+          window.location.assign("student.html");
+        }
+    } else { alert("Google Auth Failed: " + (data.error || "Unknown Error")); }
+  } catch(err) { alert("Network error during Google Authentication."); }
+};
